@@ -14,16 +14,16 @@ CREATE OR REPLACE TYPE O_CONTRATO AS OBJECT(
 CREATE OR REPLACE TYPE BODY O_CONTRATO AS
     MEMBER PROCEDURE expand(salary NUMBER) IS
     BEGIN
-            IF fecha_fin IS NULL THEN
-                self.salario := salary;
-            ELSE
-                self.fecha_fin := TO_DATE('2021/12/31', 'yyyy/mm/dd');
-            END IF;
+        IF fecha_fin IS NULL THEN
+            self.salario := salary;
+        ELSE
+            self.fecha_fin := TO_DATE('2021/12/31', 'yyyy/mm/dd');
+        END IF;
     END expand;
 
     MEMBER PROCEDURE display IS
     BEGIN
-        dbms_output.put_line('salary: '|| salario || ', fecha fin: ' || fecha_fin);
+        dbms_output.put_line(chr(9) || '- salary: '|| salario || ', fecha inicio: ' || fecha_inicio|| ', fecha fin: ' || fecha_fin);
     END display; 
 END; 
 /

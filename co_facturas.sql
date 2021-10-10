@@ -13,7 +13,10 @@ CREATE OR REPLACE TYPE BODY O_FACTURA AS
 
     MEMBER PROCEDURE display IS
     BEGIN
-        dbms_output.put_line('forma pago: '|| forma_pago || ', fecha venta: ' || fecha_venta);
+        dbms_output.put_line(chr(9) ||'- Factura '|| numero || ', fecha venta: ' || fecha_venta);
+        FOR v IN 1 .. ventas.COUNT LOOP
+            ventas(v).display;
+        END LOOP;
     END display; 
 END; 
 /

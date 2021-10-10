@@ -11,7 +11,7 @@ CREATE OR REPLACE TYPE BODY O_VENTA AS
 
     MEMBER PROCEDURE display IS
     BEGIN
-        dbms_output.put_line('cantidad: '|| cantidad || ', valor: ' || valor);
+        dbms_output.put_line( chr(9) || chr(9) || '* nombre: ' || producto.nombre || ', cantidad: '|| cantidad || ', valor: ' || valor);
     END display; 
 END; 
 /

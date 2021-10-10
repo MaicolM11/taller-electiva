@@ -8,46 +8,59 @@ CREATE OR REPLACE TYPE O_EMPLEADO AS OBJECT(
     facturas C_FACTURAS,
 
     -- busca el ultimo contrato y lo extiende
-    member procedure sale_for_year,
     member PROCEDURE expand(salary NUMBER),
-    member procedure display
+    member PROCEDURE display,
+    member PROCEDURE display_contracts,
+    MEMBER PROCEDURE display_bills
 ); 
 
 /
 
 CREATE OR REPLACE TYPE BODY O_EMPLEADO AS
-    MEMBER PROCEDURE display IS
-    BEGIN
-        dbms_output.put_line('nombres: '|| self.nombre || ' ' || self.apellido || 'contratos: ' || contratos.count);
-    END display; 
-
+    
     MEMBER PROCEDURE expand(salary NUMBER) IS
         last_contract O_CONTRATO:= NULL;
-    BEGIN
-        FOR i IN facturas.FIRST .. facturas.LAST LOOP
-            IF last_contract IS NULL OR last_contract.fecha_inicio < contratos(i).fecha_inicio THEN   
-                last_contract := contratos(i);
-            END IF;
-        END LOOP;
-        last_contract.display;
-        last_contract.expand(salary);
-        last_contract.display;
-    END expand;
-    
-     MEMBER PROCEDURE sale_for_year(year NUMBER) IS
-        facturas_Empl O_FACTUR:= NULL;
+        pos_i NUMBER:=-1;
     BEGIN
         FOR i IN contratos.FIRST .. contratos.LAST LOOP
             IF last_contract IS NULL OR last_contract.fecha_inicio < contratos(i).fecha_inicio THEN   
                 last_contract := contratos(i);
+                pos_i := i;
             END IF;
         END LOOP;
-        last_contract.display;
-        last_contract.expand(salary);
-        last_contract.display;
-    END expand;
 
+        IF last_contract IS NOT NULL THEN   
+            contratos(pos_i).expand(salary);
+        END IF;
+              
+    END expand;
+    
+    MEMBER PROCEDURE display IS
+    BEGIN
+        dbms_output.put_line('cedula: '|| cedula || 'nombres: '|| nombre || ' ' || apellido);
+    END display; 
+
+    MEMBER PROCEDURE display_contracts IS
+        last_contract O_CONTRATO:= NULL;
+    BEGIN
+        dbms_output.put_line('contratos: ');
+        FOR c IN 1 .. contratos.COUNT LOOP
+            contratos(c).display;
+        END LOOP;    
+    END display_contracts;
+
+    MEMBER PROCEDURE display_bills IS
+        last_contract O_CONTRATO:= NULL;
+    BEGIN
+        dbms_output.put_line('facturas: ');
+        FOR f IN 1 .. facturas.COUNT LOOP
+            facturas(f).display;
+        END LOOP;  
+    END display_bills;
+    
 END; 
 /
+show errors;
 
 CREATE TYPE C_EMPLEADOS IS TABLE OF O_EMPLEADO;
+
