@@ -45,6 +45,8 @@ execute migracion.migrar();
 
 execute migracion.display();
 
-execute migracion.expand(10, 9000);
+execute migracion.expand(7, 800000);
+
+execute migracion.sale_for_year(11, 2013);
 
 

@@ -5,6 +5,9 @@ CREATE OR REPLACE TYPE O_CONTRATO AS OBJECT(
     fecha_fin DATE,
     comision NUMBER(4),
 
+    CONSTRUCTOR FUNCTION O_CONTRATO(SELF IN OUT NOCOPY O_CONTRATO,
+    id_contrato NUMBER, salario NUMBER, fecha_inicio DATE,fecha_fin DATE,
+    comision NUMBER) RETURN SELF as RESULT,
     -- extiende el contrato hasta 31-12-2021, si es indefinido actualiza salario
     member PROCEDURE expand(salary NUMBER),
     member procedure display
@@ -12,6 +15,19 @@ CREATE OR REPLACE TYPE O_CONTRATO AS OBJECT(
 
 /
 CREATE OR REPLACE TYPE BODY O_CONTRATO AS
+
+     CONSTRUCTOR FUNCTION O_CONTRATO(SELF IN OUT NOCOPY O_CONTRATO,
+     id_contrato NUMBER, salario NUMBER, fecha_inicio DATE,fecha_fin DATE,
+     comision NUMBER) RETURN SELF as RESULT IS
+     BEGIN
+     SELF.id_contrato := id_contrato;
+     SELF.salario := salario;
+     SELF.fecha_inicio := fecha_inicio;
+     SELF.fecha_fin := fecha_fin;
+     SELF.comision := comision;
+     RETURN ;
+     END;
+
     MEMBER PROCEDURE expand(salary NUMBER) IS
     BEGIN
         IF fecha_fin IS NULL THEN

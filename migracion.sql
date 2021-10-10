@@ -2,6 +2,7 @@ CREATE OR REPLACE PACKAGE migracion AS
     empleados C_EMPLEADOS;
     PROCEDURE migrar;
     PROCEDURE expand(id NUMBER, salary NUMBER);
+    PROCEDURE sale_for_year(id NUMBER, year NUMBER);
     PROCEDURE display;
     FUNCTION parseProduct(p_id productos.ID_PRODUCTO%TYPE) RETURN O_PRODUCTO;
 END migracion;
@@ -42,8 +43,18 @@ CREATE OR REPLACE PACKAGE BODY migracion AS
         END LOOP;
     END expand;
 
-    PROCEDURE display  IS
-    BEGIN
+     PROCEDURE sale_for_year(id NUMBER, year NUMBER) IS
+        BEGIN
+            FOR i IN 1.. empleados.COUNT LOOP
+                IF empleados(i).cedula = id THEN
+                    empleados(i).sale_for_year(year);
+                END IF;
+            END LOOP;
+        END sale_for_year;
+        
+        
+        PROCEDURE display  IS
+        BEGIN
         FOR i IN 1.. empleados.COUNT LOOP
             empleados(i).display;
             empleados(i).display_contracts;
