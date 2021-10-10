@@ -6,7 +6,7 @@ drop TYPE C_CONTRATOS;
 drop TYPE O_CONTRATO;
 
 drop type C_FACTURAS;
-drop type O_FATURA;
+drop type O_FACTURA;
 
 drop type C_VENTAS;
 drop type O_VENTA;

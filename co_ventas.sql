@@ -1,7 +1,7 @@
 CREATE OR REPLACE TYPE O_VENTA AS OBJECT(   
-    producto O_PRODUCTO,
     cantidad NUMBER(3),
     valor NUMBER(6),
+    producto O_PRODUCTO,
 
     member procedure display
 ); 

@@ -1,8 +1,8 @@
 CREATE OR REPLACE TYPE O_FACTURA AS OBJECT(   
-    id_factura NUMBER(6),
+    numero NUMBER(6),
     forma_pago VARCHAR2(1),
     fecha_venta DATE,
-    numero_coutas NUMBER(3),
+    numero_cuotas NUMBER(3),
     ventas C_VENTAS,
 
     member procedure display
